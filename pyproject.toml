@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "base"
+version = "0.1.0"
+description = ""
+authors = ["Denis Martins <martins.denis@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Flask = "^2.0.2"
+dynaconf = "^3.1.7"
+python-dotenv = "^0.19.2"
+Flask-SQLAlchemy = "^2.5.1"
+psycopg2-binary = "^2.9.2"
+SQLAlchemy-serializer = "^1.4.1"
+Flask-RESTful = "^0.3.9"
+Werkzeug = "^2.0.2"
+click = "^8.0.3"
+SQLAlchemy-Utils = "^0.38.1"
+passlib = "^1.7.4"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+black = { version = "^21.12b0", allow-prereleases = true }
+autopep8 = "^1.6.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
