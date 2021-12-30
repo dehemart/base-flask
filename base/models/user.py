@@ -1,7 +1,9 @@
 import flask
-from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy_utils import PasswordType, force_auto_coercion
+from sqlalchemy_serializer import SerializerMixin
+from flask_login import UserMixin
 from dynaconf import settings
+
 
 from base.extensions.database import db
 
@@ -11,7 +13,7 @@ from base.models.user_status import UserStatus
 force_auto_coercion()
 
 
-class User(db.Model, SerializerMixin):
+class User(db.Model, SerializerMixin, UserMixin):
     __tablename__ = 'user'
     __table_args__ = {"schema": settings.DB_SCHEMA}
 
@@ -19,17 +21,8 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
-    password = db.Column(
-        PasswordType(
-            onload=lambda **kwargs: dict(
-                schemes=flask.current_app.config['PASSWORD_SCHEMES'],
-                **kwargs
-            ), deprecated=['md5_crypt']
-        ),
-        unique=False,
-        nullable=False
-    )
-    email = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
 
     status_id = db.Column(db.Integer, db.ForeignKey(f'{settings.DB_SCHEMA}.user_status.id'),
                           nullable=True)

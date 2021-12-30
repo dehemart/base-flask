@@ -17,6 +17,7 @@ Werkzeug = "^2.0.2"
 click = "^8.0.3"
 SQLAlchemy-Utils = "^0.38.1"
 passlib = "^1.7.4"
+Flask-Login = "^0.5.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
