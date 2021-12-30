@@ -1,5 +1,6 @@
 import click
 import sqlalchemy
+from werkzeug.security import generate_password_hash
 
 from base.extensions.database import db
 from base.models.user import User, UserStatus
@@ -58,7 +59,7 @@ def init_app(app):
         else:
             status_id = 1
         user = User(username=username,
-                    password=password,
+                    password=generate_password_hash(password),
                     email=email,
                     status_id=status_id)
         db.session.add(user)

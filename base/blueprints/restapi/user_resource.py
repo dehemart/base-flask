@@ -1,4 +1,5 @@
 from flask import abort, jsonify, make_response, request
+from werkzeug.security import generate_password_hash
 from flask_restful import Resource
 
 from base.models.user import User
@@ -38,13 +39,15 @@ class UserResource(Resource):
                 return_code = 200
                 user.username = user_data['username'].lower(
                 ) if user_data['username'] is None else user.username
-                user.password = user_data['password'] if user_data['password'] is not None else user.password
+                user.password = generate_password_hash(
+                    user_data['password']) if user_data['password'] is not None else user.password
                 user.email = user_data['email'] if user_data['email'] is not None else user.email
                 user.status_id = user_data['status_id'] if user_data['status_id'] is not None else user.status_id
             else:
                 return_code = 201
                 user = User(username=user_data['username'].lower(),
-                            password=user_data['password'],
+                            password=generate_password_hash(
+                                user_data['password']),
                             email=user_data['email'],
                             status_id=user_data['status_id'])
             db.session.add(user)
@@ -65,7 +68,7 @@ class UserResource(Resource):
             abort(422, "Username duplicated")
         try:
             user = User(username=user_data['username'],
-                        password=user_data['password'],
+                        password=generate_password_hash(user_data['password']),
                         email=user_data['email'],
                         status_id=user_data['status_id'])
 
