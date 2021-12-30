@@ -9,7 +9,7 @@ DB_SCHEMA_USE = "@format SET SESSION SEARCH_PATH TO {this.DB_SCHEMA};"
 
 
 [development]
-DB_SERV = "192.168.1.169"
+DB_SERV = "localhost"
 DB_PORT = "5432"
 DB_USER = "flask"
 DB_PASS = "flask"
