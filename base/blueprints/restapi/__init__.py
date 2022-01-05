@@ -7,9 +7,9 @@ from base.blueprints.restapi.user_status_resource import UserStatusResource
 from base.blueprints.restapi.product_status_resource import ProductStatusResource
 from base.blueprints.restapi.product_category_resource import ProductCategoryResource
 
-bp = Blueprint('restapi', __name__, url_prefix='/api/v1')
+blueprint = Blueprint('restapi', __name__, url_prefix='/api/v1')
 
-api = Api(bp)
+api = Api(blueprint)
 
 
 def init_app(app):
@@ -23,4 +23,4 @@ def init_app(app):
                      '/products/statuses', '/products/statuses/<id>')
     api.add_resource(ProductCategoryResource,
                      '/products/categories', '/products/categories/<id>')
-    app.register_blueprint(bp)
+
