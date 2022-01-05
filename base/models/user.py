@@ -1,5 +1,5 @@
 import flask
-from sqlalchemy_utils import PasswordType, force_auto_coercion
+from sqlalchemy_utils import force_auto_coercion
 from sqlalchemy_serializer import SerializerMixin
 from flask_login import UserMixin
 from dynaconf import settings

@@ -1,6 +1,7 @@
 from flask import abort, jsonify, make_response, request
 from werkzeug.security import generate_password_hash
 from flask_restful import Resource
+from flask_login import login_required
 
 from base.models.user import User
 from base.extensions.database import db
@@ -8,6 +9,7 @@ from base.extensions.database import db
 
 class UserResource(Resource):
     """" API Resource of User """
+    decorators = [login_required]
 
     def get(self, id: int = None):
         if id:
