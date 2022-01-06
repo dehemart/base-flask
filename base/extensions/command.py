@@ -34,18 +34,19 @@ def init_app(app):
 
         add_user_status()
         user_status_active = add_user_status('ACTIVE')
-        add_user('admin', 'admin', 'admin@email', user_status_active)
+        add_user('admin', 'admin', 'admin@email', "admin", user_status_active)
 
     @app.cli.command()
     @click.option("--username", "-u", default="admin", help='User name for login')
     @click.option("--password", "-p", default="admin", help='User password for login')
     @click.option("--email", "-e", default="admin@admin", help='User email for comunicaiton')
-    def new_user(username: str = "admin", password: str = "admin", email: str = "admin@admin"):
+    @click.option("--api_key", "-k", default="admin@admin", help='User Api key for comunicaiton')
+    def new_user(username: str = "admin", password: str = "admin", email: str = "admin@admin", api_key: str = "default"):
         """ Create user to access this app """
         try:
             add_user_status()
             user_status_active = add_user_status('ACTIVE')
-            add_user(username, password, email, user_status_active)
+            add_user(username, password, email, api_key, user_status_active)
         except sqlalchemy.exc.IntegrityError:
             print("User already exists")
         except sqlalchemy.exc.OperationalError:
@@ -53,7 +54,7 @@ def init_app(app):
         except Exception as e:
             print(f"Error on execute command: {e._message}")
 
-    def add_user(username: str = "admin", password: str = "admin", email: str = "admin@admin", status: UserStatus = None):
+    def add_user(username: str = "admin", password: str = "admin", email: str = "admin@admin", api_key: str = "default", status: UserStatus = None):
         if status:
             status_id = status.id
         else:
@@ -61,6 +62,7 @@ def init_app(app):
         user = User(username=username,
                     password=generate_password_hash(password),
                     email=email,
+                    api_key=generate_password_hash(api_key),
                     status_id=status_id)
         db.session.add(user)
         db.session.commit()

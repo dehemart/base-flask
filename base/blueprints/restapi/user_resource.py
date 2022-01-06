@@ -44,6 +44,8 @@ class UserResource(Resource):
                 user.password = generate_password_hash(
                     user_data['password']) if user_data['password'] is not None else user.password
                 user.email = user_data['email'] if user_data['email'] is not None else user.email
+                user.api_key = generate_password_hash(
+                    user_data['api_key']) if user_data['api_key'] is not None else user.api_key
                 user.status_id = user_data['status_id'] if user_data['status_id'] is not None else user.status_id
             else:
                 return_code = 201
@@ -51,13 +53,15 @@ class UserResource(Resource):
                             password=generate_password_hash(
                                 user_data['password']),
                             email=user_data['email'],
+                            api_key=generate_password_hash(
+                                user_data['api_key']),
                             status_id=user_data['status_id'])
             db.session.add(user)
             db.session.commit()
         except ValueError as ve:
             abort(400, "Bad Request: " + ve.__str__())
         response_data = jsonify(
-            {'user': user.to_dict()}
+            {'user': user.to_json()}
         )
         return make_response(response_data, return_code)
 
@@ -72,6 +76,7 @@ class UserResource(Resource):
             user = User(username=user_data['username'],
                         password=generate_password_hash(user_data['password']),
                         email=user_data['email'],
+                        api_key=generate_password_hash(user_data['api_key']),
                         status_id=user_data['status_id'])
 
             db.session.add(user)

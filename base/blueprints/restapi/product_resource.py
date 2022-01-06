@@ -1,4 +1,5 @@
 from flask import abort, jsonify, make_response, request
+from flask_login import login_required
 from flask_restful import Resource
 
 from base.models.product import Product
@@ -7,6 +8,7 @@ from base.extensions.database import db
 
 class ProductResource(Resource):
     """" API Resource of User """
+    decorators = [login_required]
 
     def get(self, id: int = None):
         if id:

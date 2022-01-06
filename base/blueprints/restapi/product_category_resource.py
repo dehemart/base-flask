@@ -12,12 +12,12 @@ class ProductCategoryResource(Resource):
         if id:
             return self._get_one(id)
         else:
-            return self._get_all()
+            return self._get_all()  
 
     def _get_all(self):
         product_categoryes = ProductCategory.query.all() or abort(
             400, "Product categories not found")
-        response_data = jsonify(
+        response_data = jsonify(   
             {'product_category': [product_category.to_dict() for product_category in product_categoryes]})
         return make_response(response_data, 200)
 

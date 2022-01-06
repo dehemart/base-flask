@@ -13,7 +13,7 @@ from base.models.user_status import UserStatus
 force_auto_coercion()
 
 
-class User(db.Model, SerializerMixin, UserMixin):
+class User(UserMixin, db.Model, SerializerMixin):
     __tablename__ = 'user'
     __table_args__ = {"schema": settings.DB_SCHEMA}
 
@@ -23,6 +23,7 @@ class User(db.Model, SerializerMixin, UserMixin):
     username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
+    api_key = db.Column(db.String(255), nullable=False)
 
     status_id = db.Column(db.Integer, db.ForeignKey(f'{settings.DB_SCHEMA}.user_status.id'),
                           nullable=True)
@@ -32,3 +33,6 @@ class User(db.Model, SerializerMixin, UserMixin):
     created = db.Column(db.TIMESTAMP(True), server_default=db.func.now())
     updated = db.Column(db.TIMESTAMP(True), server_default=db.func.now(),
                         server_onupdate=db.func.now())
+
+    def get_id(self):
+        return self.id
